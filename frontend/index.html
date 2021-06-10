@@ -5,20 +5,46 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>REVISATOR2000</title>
+    
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+
 </head>
 
-<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
 
 <body>
+    
     <div id="app">
-        {{ user }}
+        <div class="container">
+            <div class="row">
+                <p class="jumbotron">Login: <input type="text" v-model="user"/> Vous êtes connecté en tant que {{ user }}</p>
+            </div>
+
+            <h1 class="display-4">Produits disponibles</h1>
+            <div class="row">
+                <div class="col-3" v-for = "produit in produits">
+                    <p class="jumbotron">
+                        {{ produit }}
+                        <button v-on:click="commander()">Commander !</button>
+                    </p>
+                </div>
+            </div>
+        </div>
+
     </div>
     
     <script>
         var app = new Vue({
             el: "#app",
             data: {
-                user: "User"
+                user: "User",
+                produits: ["jeu vidéalistique", "jeux non-vidéalisytique", "bananes"],
+                commandes: []
+            },
+            methods: {
+                commander: function(){
+                    console.log("vous avez commandé");
+                }
             }
         })
     </script>
