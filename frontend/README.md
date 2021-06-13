@@ -1,2 +1,2 @@
 # Tout ce qui a en rapport avec le frontend
-(en cours de finalisation des tests de VueJS)
+( attention j'ai fait du lourd niveau css et html je te laisse voir ;] )
