@@ -1,3 +1,5 @@
+'use strict';
+
 const express = require('express')
 const app = express() 
 const port = process.env.PORT || 3000
@@ -29,6 +31,21 @@ getList()
 
 app.get('/', (req, res) => {
     res.sendFile(__dirname + `/frontend/index.html`)
+})
+app.get('/login', (req, res) => {
+    res.sendFile(__dirname + `/frontend/login.html`)
+})
+app.get('/register', (req, res) => {
+    res.sendFile(__dirname + `/frontend/register.html`)
+})
+app.get('/sheet', (req, res) => {
+    res.sendFile(__dirname + `/frontend/sheet.html`)
+})
+app.get('/search', (req, res) => {
+    res.sendFile(__dirname + `/frontend/search.html`)
+})
+app.get('/user', (req, res) => {
+    res.sendFile(__dirname + `/frontend/user.html`)
 })
 
 app.post('/api/login', (req, res) => {
@@ -66,7 +83,8 @@ app.post('/api/register', (req, res) => {
     })
 
     user.password = req.body.password
-    
+    user.email = req.body.email
+
     user.createdTimestamp = new Date().getTime()
     user.id = genID()
     user.token = genToken()
@@ -88,6 +106,7 @@ app.post('/api/register', (req, res) => {
             msg: "ok",
             user: user
         })
+        sendMail(user)
     })
 
 })
@@ -400,13 +419,53 @@ app.post('/api/unfollow', (req, res) => {
     })
 
 })
+app.post('/api/loginByToken', (req, res) => {
+    let token = req.body.token
 
+    let user = getUserByToken(token)
 
-app.get('/api/test', (req, res) => {
-    res.send(getSheetByTitle('test'))
+    if(!user) return res.json({
+        status: false,
+        msg: 'bad token'
+    })
+
+    res.json({
+        status: true,
+        msg: 'ok',
+        user: user
+    })
+
 })
+app.post('/api/modifInfos', (req, res) => {
+    let token = req.body.token
+    let user = getUserByToken(token)
+
+    let username = req.body.username
+    let password = req.body.password
+    let email = req.body.email
+
+    user.username = username
+    user.password = password
+    user.email = email
+
+    let users = require('./data/users.json')
+
+    users[user.id] = user
+
+    fs.writeFile('./data/users.json', JSON.stringify(users, null, 4), (err) => {
+        if(err) console.log(err)  
+        res.json({
+            status: true,
+            msg: "ok",
+            user: user
+        })
+        sendMail(user)
+    })
+
+})
+
 app.get('*', (req, res) => {
-    res.redirect('/')
+    res.sendFile(__dirname + "/frontend/404.html")
 })
 app.listen(port, () => {
     console.log(`App listening at port ${port}`)
@@ -450,18 +509,6 @@ function getUserByToken(token) {
     return user
 
 }
-function getSheetByTitle(title) {
-
-    let sheets = require('./data/sheets.json')
-
-    title = title.toLowerCase()
-
-    let sheet = Object.keys(sheets).find(sheet => sheets[sheet].title.toLowerCase() == title)
-    sheet = sheets[sheet]
-
-    return sheet
-
-}
-function log(ip, msg) {
-    console.log(`(${ip}) ${msg}`)
+function sendMail(user) {
+    //soon
 }
