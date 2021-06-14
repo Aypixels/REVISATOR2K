@@ -32,13 +32,13 @@ getList()
 app.get('/', (req, res) => {
     res.sendFile(__dirname + `/frontend/index.html`)
 })
-app.get('/login', (req, res) => {
-    res.sendFile(__dirname + `/frontend/login.html`)
+app.get('/SignIn', (req, res) => {
+    res.sendFile(__dirname + `/frontend/pageSignIn.html`)
 })
-app.get('/register', (req, res) => {
-    res.sendFile(__dirname + `/frontend/register.html`)
+app.get('/signUp', (req, res) => {
+    res.sendFile(__dirname + `/frontend/pageSignUp.html`)
 })
-app.get('/sheet', (req, res) => {
+/*app.get('/sheet', (req, res) => {
     res.sendFile(__dirname + `/frontend/sheet.html`)
 })
 app.get('/search', (req, res) => {
@@ -46,7 +46,7 @@ app.get('/search', (req, res) => {
 })
 app.get('/user', (req, res) => {
     res.sendFile(__dirname + `/frontend/user.html`)
-})
+})*/
 
 app.post('/api/login', (req, res) => {
 
@@ -465,7 +465,18 @@ app.post('/api/modifInfos', (req, res) => {
 })
 
 app.get('*', (req, res) => {
-    res.sendFile(__dirname + "/frontend/404.html")
+
+    let file = req.path.slice(1)
+
+    fs.readFile('./frontend/' + file, 'utf-8', (err, data) => {
+        if(!err && file.endsWith('.css')) {
+
+            res.sendFile(__dirname + "/frontend/" + file)
+
+        } else {
+            res.sendFile(__dirname + "/frontend/404.html")
+        }
+    })
 })
 app.listen(port, () => {
     console.log(`App listening at port ${port}`)
