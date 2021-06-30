@@ -32,11 +32,11 @@ getList()
 app.get('/', (req, res) => {
     res.sendFile(__dirname + `/frontend/index.html`)
 })
-app.get('/SignIn', (req, res) => {
-    res.sendFile(__dirname + `/frontend/pageSignIn.html`)
+app.get('/login', (req, res) => {
+    res.sendFile(__dirname + `/frontend/login.html`)
 })
-app.get('/signUp', (req, res) => {
-    res.sendFile(__dirname + `/frontend/pageSignUp.html`)
+app.get('/register', (req, res) => {
+    res.sendFile(__dirname + `/frontend/register.html`)
 })
 /*app.get('/sheet', (req, res) => {
     res.sendFile(__dirname + `/frontend/sheet.html`)
