@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>REVISATOR2000 - Se connecter</title>
+</head>
+<body>
+   	
+	<label for="username">Nom d'utilisateur: </label>
+	<input type="text" name="username" id="R2Kusername">
+	<br />
+	<label for="password">Mot de passe: </label>
+	<input type="text" name="password" id="R2Kpassword">
+	<br />
+	<button onclick="connect()">Se connecter</button>
+	<br />
+	<p id="infos"></p>
+
+   	<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+    <script type="text/javascript">
+    	
+    	function connect() {
+
+    		let username = document.getElementById('R2Kusername').value
+    		let password = document.getElementById('R2Kpassword').value
+    	
+    		axios({
+    			method: 'post',
+    			url: '/api/login',
+    			data: {
+    				username: username,
+    				password: password
+    			}
+    		})
+    		.then(res => {
+    			data = res.data
+    			if(!data.status) {
+    				document.getElementById('infos').innerHTML = "Vos identifiants semblent incorrectes"
+    			} else {
+    				localStorage.setItem('token', data.user.token)
+    				window.location = "/"
+    			}
+    		})
+    		.catch(console.log)
+
+    	}
+
+    </script>
+   
+</body>
+</html>
