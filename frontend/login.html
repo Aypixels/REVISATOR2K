@@ -53,6 +53,11 @@
     		.catch(console.log)
 
     	}
+	
+	function disconnection(){
+	    localStorage.removeItem('token')
+	    this.user = false
+	}
 
     </script>
    
