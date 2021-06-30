@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>REVISATOR2K</title>
+</head>
+<body>
+	<h2>S'enregistrer</h2>
+	<br />
+	<label for="username">Nom d'utilisateur:</label>
+	<br />
+	<input type="text" name="username" id="username">
+	<br />
+	<label for="email">E-mail:</label>
+	<br />
+	<input type="text" name="email" id="email">
+	<br />
+	<label for="password">Mot de passe:</label>
+	<br />
+	<input type="password" name="password" id="password">
+	<br />
+	<label for="password2">Confirmer votre mot de passe:</label>
+	<br />
+	<input type="password" name="password2" id="password2">
+	<br />
+	<button onclick="register()">S'enregister</button>
+	<br />
+	<p id="infos"></p>
+
+
+   	<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+	<script type="text/javascript">
+		function register() {
+			let username = document.getElementById('username').value
+			let email = document.getElementById('email').value
+			let password = document.getElementById('password').value
+			let password2 = document.getElementById('password2').value
+		
+			if(username === "" || email === "" || password === "" || password2 === "") {
+				document.getElementById('infos').innerHTML = "Veuillez remplir tous les champs."
+			} else if(password !== password2) {
+				document.getElementById('infos').innerHTML = "Vos mots de passe ne correspondent pas."
+			} else {
+				axios({
+					method: 'post',
+					url: '/api/register',
+					data: {
+						username: username,
+						password: password,
+						email: email
+					}
+				})
+				.then(res => {
+					if(!res.data.status) {
+						document.getElementById('infos').innerHTML = "Le nom d'utilisateur est déjà utilisé"
+					} else {
+						localStorage.setItem("token", res.data.user.token)
+						window.location = "/"
+					}
+				})
+				.catch(console.log)
+			}
+
+			setTimeout(() => {
+				document.getElementById('infos').innerHTML = ""
+			}, 3000)
+
+		}
+	</script>
+
+</body>
+</html>

@@ -45,7 +45,10 @@
     			data = res.data
     			if(!data.status) {
     				document.getElementById('infos').innerHTML = "Vos identifiants semblent incorrects"
-    			} else {
+    			     setTimeout(() => {
+                    document.getElementById('infos').innerHTML = "Vos identifiants semblent incorrects"
+                    }, 3000)
+                } else {
     				localStorage.setItem('token', data.user.token)
     				window.location = "/"
     			}
