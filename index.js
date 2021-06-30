@@ -523,7 +523,3 @@ function getUserByToken(token) {
 function sendMail(user) {
     //soon
 }
-function disconnection(){
-    localStorage.removeItem('token')
-    this.user = false
-}
