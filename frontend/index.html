@@ -20,7 +20,7 @@
     <div class="compte">
         <div data-index="0" class="case">
             <div v-if="user" id="userinfo">
-                <p>Connecté(e) en tant que {{ user.username }}<button onclick="disconnection()">Clique ici pour te déconnecter</button></p>
+                <p>Connecté(e) en tant que {{ user.username }}<button @click="disconnection()">Clique ici pour te déconnecter</button></p>
             </div>
         </div>
     </div>
@@ -89,9 +89,19 @@
                     this.user = res.data.user
                 })
                 .catch(console.log)
+            },
+            methods: {
+                disconnection: function() {
+                    localStorage.removeItem('token')
+                    this.user = false
                 }
+            }
         })
 
+        function disconnection(){
+            localStorage.removeItem('token')
+            this.user = false
+        }
     </script>
 
 </body>
